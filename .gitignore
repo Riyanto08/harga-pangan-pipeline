@@ -10,3 +10,6 @@ __pycache__/
 
 # File rahasia (password, token) untuk nanti
 .env
+
+# Kunci akses Google Cloud (RAHASIA, jangan di-upload)
+credentials/
