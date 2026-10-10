@@ -1,10 +1,14 @@
 import json
 import time
+from datetime import date, timedelta
 from pathlib import Path
 
 import requests
 
 url = "https://www.bi.go.id/hargapangan/WebSite/TabelHarga/GetGridDataKomoditas"
+
+hari_ini = date.today()
+tanggal_mulai = hari_ini - timedelta(days=7)
 
 params = {
     "price_type_id": "",
@@ -14,12 +18,15 @@ params = {
     "showKota": "false",
     "showPasar": "false",
     "tipe_laporan": 1,
-    "start_date": "2026-10-02",
-    "end_date": "2026-10-09",
+    "start_date": tanggal_mulai.isoformat(),
+    "end_date": hari_ini.isoformat(),
 }
 
-folder = Path("data/raw")
+folder = Path("data/raw") / hari_ini.isoformat()
 folder.mkdir(parents=True, exist_ok=True)
+
+print(f"Menarik data {tanggal_mulai} s/d {hari_ini}")
+print(f"Disimpan ke folder: {folder}")
 
 for pasar in range(1, 5):
     params["price_type_id"] = pasar
