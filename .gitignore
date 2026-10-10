@@ -1,0 +1,12 @@
+# Virtual environment
+.venv/
+
+# Data hasil tarikan (bisa ditarik ulang oleh script)
+data/
+
+# File sementara Python
+__pycache__/
+*.pyc
+
+# File rahasia (password, token) untuk nanti
+.env
