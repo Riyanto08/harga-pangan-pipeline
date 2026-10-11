@@ -1,0 +1,34 @@
+version: 2
+
+models:
+  - name: stg_pihps__harga_harian
+    description: Harga pangan harian yang sudah dibersihkan, satu baris per jenis pasar, komoditas, wilayah, dan tanggal (versi tarikan terbaru)
+    columns:
+      - name: price_type_id
+        description: Kode jenis pasar
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('jenis_pasar')
+                field: price_type_id
+      - name: comcat_id
+        description: Kode komoditas
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('komoditas')
+                field: comcat_id
+      - name: wilayah
+        description: Nama provinsi, atau "Semua Provinsi" untuk rata-rata nasional
+        data_tests:
+          - not_null
+      - name: tanggal
+        description: Tanggal harga tercatat
+        data_tests:
+          - not_null
+      - name: harga
+        description: Harga dalam rupiah per satuan
+        data_tests:
+          - not_null
