@@ -1,0 +1,10 @@
+version: 2
+
+sources:
+  - name: raw_pihps
+    description: Data mentah harga pangan dari PIHPS Bank Indonesia, dimuat oleh extract/load_bq.py
+    database: harga-pangan-pipeline
+    schema: raw_pihps
+    tables:
+      - name: harga_harian
+        description: Satu baris per jenis pasar, komoditas, wilayah, dan tanggal untuk setiap tarikan
