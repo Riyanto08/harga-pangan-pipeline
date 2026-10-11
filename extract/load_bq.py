@@ -1,4 +1,5 @@
 import json
+import sys
 from datetime import date, datetime, timezone
 from pathlib import Path
 
@@ -7,12 +8,18 @@ from google.cloud import bigquery
 TABLE_ID = "harga-pangan-pipeline.raw_pihps.harga_harian"
 
 hari_ini = date.today().isoformat()
-folder = Path("data/raw") / hari_ini
 waktu_muat = datetime.now(timezone.utc).isoformat()
 
+if len(sys.argv) > 1:
+    folder = Path(sys.argv[1])
+else:
+    folder = Path("data/raw") / hari_ini
+
 if not folder.exists():
-    print(f"Folder {folder} tidak ditemukan. Jalankan extract_pihps.py dulu.")
+    print(f"Folder {folder} tidak ditemukan.")
     raise SystemExit(1)
+
+print(f"Memuat data dari folder: {folder}")
 
 semua_baris = []
 for file in sorted(folder.glob("harga_*.json")):
