@@ -162,6 +162,16 @@ docker compose up -d
 
 Buka `http://localhost:8080`, aktifkan DAG `harga_pangan_daily`, lalu jalankan dengan tombol **Trigger**. Untuk mematikan: `docker compose stop`. Untuk menyalakan lagi: `docker compose start`.
 
+**4. Memulihkan tabel mentah (BigQuery Sandbox)**
+
+Di mode sandbox, tabel otomatis terhapus 60 hari setelah dibuat. Script ini menghapus tabel mentah lalu memuat ulang semua file JSON dari folder `data/`, sehingga tabel mendapat masa hidup 60 hari yang baru. Jalankan setiap ±50 hari, lalu bangun ulang model dbt:
+
+```bash
+python extract/rebuild_raw.py
+cd dbt_harga_pangan
+dbt build
+```
+
 ---
 
 ## Keterbatasan
@@ -173,7 +183,7 @@ Buka `http://localhost:8080`, aktifkan DAG `harga_pangan_daily`, lalu jalankan d
 - **Rata-rata nasional antar tahap bisa berasal dari kumpulan provinsi yang berbeda**, sehingga angka margin adalah gambaran umum, bukan pengukuran satu rantai distribusi yang sama.
 - **Airflow berjalan di laptop**, sehingga jadwal hanya jalan saat container menyala. Berkat tarikan 7 hari terakhir, menjalankannya seminggu sekali tetap menghasilkan data yang lengkap. Untuk produksi, pipeline ini bisa dipindahkan ke server cloud.
 - **BigQuery Sandbox** memiliki batas waktu kedaluwarsa tabel. Kalau tabel mentah terhapus, histori bisa dipulihkan dengan `backfill_pihps.py`.
-
+- **BigQuery Sandbox** menghapus tabel 60 hari setelah dibuat. Semua data mentah tetap tersimpan sebagai JSON di laptop, sehingga tabel bisa dibangun ulang kapan saja dengan `rebuild_raw.py` tanpa menarik ulang dari PIHPS.
 ---
 
 ## Sumber Data
