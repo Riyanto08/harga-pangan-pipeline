@@ -16,3 +16,6 @@ credentials/
 
 # Log dbt
 logs/
+
+# File otomatis dbt (ID pengguna anonim)
+.user.yml

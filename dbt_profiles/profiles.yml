@@ -1,0 +1,14 @@
+dbt_harga_pangan:
+  target: docker
+  outputs:
+    docker:
+      type: bigquery
+      method: service-account
+      keyfile: /opt/project/credentials/bq-key.json
+      project: harga-pangan-pipeline
+      dataset: harga_pangan
+      location: asia-southeast2
+      threads: 4
+      job_execution_timeout_seconds: 300
+      job_retries: 1
+      priority: interactive
